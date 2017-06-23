@@ -40,7 +40,9 @@ gulp.task('sass:extract', function () {
       path.dirname = "/";
       path.extname = ".scss"
     }))
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sass({
+      includePaths: './sass'
+    }).on('error', sass.logError))
     .pipe(gulp.dest('tmp'))
 })
 
@@ -53,7 +55,7 @@ gulp.task('css:concat', function () {
 
 gulp.task('css', ['sass:critical', 'sass:extract', 'css:concat'])
 
-gulp.task('default', ['clean:tmp', 'css'], function () {
+gulp.task('default', ['css'], function () {
   gulp.watch('./html/**/*.html', ['sass:extract'])
   gulp.watch('./sass/**/*.scss', ['sass:critical'])
   gulp.watch('./tmp/**/*.css', ['css:concat'])
